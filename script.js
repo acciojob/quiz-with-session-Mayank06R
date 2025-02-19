@@ -1,4 +1,5 @@
 // Questions array
+// Corrected Questions array
 const questions = [
   {
     question: "What is the capital of France?",
@@ -17,7 +18,7 @@ const questions = [
   },
   {
     question: "Which is the largest planet in our solar system?",
-    choices: ["Earth", "Jupiter", "Mars", "Jupiter"],
+    choices: ["Earth", "Jupiter", "Mars", "Saturn"],
     answer: "Jupiter",
   },
   {
@@ -26,6 +27,7 @@ const questions = [
     answer: "Ottawa",
   },
 ];
+
 
 let userAnswers = JSON.parse(sessionStorage.getItem("progress")) || [];
 let questionsElement = document.getElementById("questions");
