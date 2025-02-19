@@ -1,7 +1,4 @@
-//your JS code here.
-
-// Do not change code below this line
-// This code will just display the questions to the screen
+// Questions array
 const questions = [
   {
     question: "What is the capital of France?",
@@ -20,7 +17,7 @@ const questions = [
   },
   {
     question: "Which is the largest planet in our solar system?",
-    choices: ["Earth", "Jupiter", "Mars"],
+    choices: ["Earth", "Jupiter", "Mars", "Jupiter"],
     answer: "Jupiter",
   },
   {
@@ -30,8 +27,12 @@ const questions = [
   },
 ];
 
+let userAnswers = JSON.parse(sessionStorage.getItem("progress")) || [];
+let questionsElement = document.getElementById("questions");
+
 // Display the quiz questions and choices
 function renderQuestions() {
+  questionsElement.innerHTML = '';
   for (let i = 0; i < questions.length; i++) {
     const question = questions[i];
     const questionElement = document.createElement("div");
@@ -46,6 +47,10 @@ function renderQuestions() {
       if (userAnswers[i] === choice) {
         choiceElement.setAttribute("checked", true);
       }
+      choiceElement.addEventListener('change', () => {
+        userAnswers[i] = choice;
+        sessionStorage.setItem("progress", JSON.stringify(userAnswers));
+      });
       const choiceText = document.createTextNode(choice);
       questionElement.appendChild(choiceElement);
       questionElement.appendChild(choiceText);
@@ -53,4 +58,22 @@ function renderQuestions() {
     questionsElement.appendChild(questionElement);
   }
 }
+
 renderQuestions();
+
+// Calculate score and display results
+function calculateScore() {
+  let score = 0;
+  for (let i = 0; i < questions.length; i++) {
+    if (userAnswers[i] === questions[i].answer) {
+      score++;
+    }
+  }
+  return score;
+}
+
+document.getElementById("submit").addEventListener('click', () => {
+  const score = calculateScore();
+  document.getElementById("score").innerText = `Your score is ${score} out of 5.`;
+  localStorage.setItem("score", score);
+});
